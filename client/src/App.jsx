@@ -14,6 +14,22 @@ function App() {
       })
     })
   }
+
+  const rateAlbum = (id, newRating) => {
+    setAlbums(prevAlbums => {
+      return prevAlbums.map(album => {
+        return album.id === id ? {...album, rating: newRating} : album 
+      })
+    })
+  }
+
+  const saveComment = (id, newComment) => {
+    setAlbums(prevAlbums => {
+      return prevAlbums.map(album => {
+        return album.id === id ? {...album, comment: newComment} : album 
+      })
+    })
+  }
   
   const removeAlbum = (id) => {
     setAlbums(prevAlbums => {
@@ -47,10 +63,11 @@ function App() {
     {albums.map((album) => (
       <AlbumCard
       album={album}
-      key={`album-${album.id}`}
+      key={album.id}
       toggleListened={() => toggleListened(album.id)}
       removeAlbum={() => removeAlbum(album.id)}
-      
+      rateAlbum={newRating => rateAlbum(album.id, newRating)}
+      saveComment={newComment => saveComment(album.id, newComment)}
       />
     ))}
     </div>

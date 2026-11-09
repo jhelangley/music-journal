@@ -1,6 +1,7 @@
+import { CommentForm } from "./CommentForm"
+import { RatingControl } from "./RatingControl"
 
-
-export function AlbumCard({ album, toggleListened, removeAlbum }) {
+export function AlbumCard({ album, toggleListened, rateAlbum, removeAlbum, saveComment }) {
     
     return (
         <div className="album-card">
@@ -9,8 +10,8 @@ export function AlbumCard({ album, toggleListened, removeAlbum }) {
             <p>{album.artist}</p>
             <p>{album.genre} - {album.releaseYear}</p>
             <button onClick={toggleListened}>{album.listened ? "Listened" : "Not Listened"}</button>
-                <p>{album.rating}</p>
-            <p>"{album.comment}"</p>
+            <RatingControl rateAlbum={rateAlbum} rating={album.rating}/>
+            <CommentForm saveComment={saveComment} comment={album.comment}/>
             <button onClick={removeAlbum}>Remove album</button>
         </div>
     )

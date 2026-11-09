@@ -6,7 +6,7 @@ export const albums = [
         "genre": "soundtrack",
         "releaseYear": 2002,
         "listened": true,
-        "rating": 5,
+        "rating": 2,
         "comment": "An excellent movie soundtrack.",
         "artwork": "/images/solaris-cover.jpg"
     },
@@ -28,7 +28,7 @@ export const albums = [
         "genre": "hip-hop",
         "releaseYear": 1993,
         "listened": false,
-        "rating": 5,
+        "rating": 3,
         "comment": "One of the most influential hip-hop albums of all time.",
         "artwork": "/images/36-chambers-cover.jpg"
     }
