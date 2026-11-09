@@ -2,15 +2,24 @@ export function AddAlbumForm ({ addAlbum }) {
     
     return (
         <form id="add-album-form" onSubmit={addAlbum}>
-            <p>Album Title:</p>
+        
+        <label>Album Title:
             <input name='title' type='text'></input>
-            <p>Artist:</p>
+        </label>
+        
+        <label>Artist:
             <input name='artist' type='text'></input>
-            <p>Release Year:</p>
+        </label>
+        
+        <label>Release Year:
             <input name='releaseYear' type='number'></input>
-            <p>Genre:</p>
+        </label>
+        
+        <label>Genre:
             <input name='genre' type='text'></input>
-            <button type='submit'>Submit</button>
+        </label>
+        
+        <button type='submit'>Submit</button>
         </form>
     )
 }
