@@ -17,7 +17,7 @@ export function CommentForm({saveComment, comment}) {
         <div>
             {editing ? 
             
-            <form id="edit-comment" onSubmit={submitChanges}>
+            <form className="edit-comment" onSubmit={submitChanges}>
                 <textarea name='comment' defaultValue={comment}></textarea>
                 <button type='submit'>Save comment</button>
             </form>
@@ -25,7 +25,7 @@ export function CommentForm({saveComment, comment}) {
             : 
             
             <div>
-                <p>{comment}</p>
+                {comment ? <p>{comment}</p> : <p style={{color: 'grey'}}>No comment added.</p>}
                 <button onClick={() => setEditing(true)}>Edit comment</button>
             </div>
             

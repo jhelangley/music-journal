@@ -2,7 +2,8 @@ export function CollectionFilters({ filters, setFilters }) {
 
     return (
         <>
-        <div>
+        <fieldset>
+            <legend>Listening Status</legend>
             <label>All Albums
                 <input 
                 type='radio' 
@@ -32,9 +33,10 @@ export function CollectionFilters({ filters, setFilters }) {
                 onChange={e => setFilters(prev => ({...prev, listened: e.target.value}))}
                 />
             </label>
-        </div>
+        </fieldset>
         
-        <div>
+        <fieldset>
+            <legend>Rating</legend>
         <label>Unrated
             <input 
             type='radio' 
@@ -98,7 +100,7 @@ export function CollectionFilters({ filters, setFilters }) {
             onChange={e => setFilters(prev => ({...prev, rating: e.target.value}))}
             />
         </label>
-        </div>
+        </fieldset>
         </>
     )
 }

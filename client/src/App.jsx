@@ -8,7 +8,7 @@ import { CollectionFilters } from './components/CollectionFilters.jsx'
 function App() {
   const [albums, setAlbums] = useState(initialAlbums)
   const [filters, setFilters] = useState({listened: 'all', rating: 'all'})
-
+  
   const filteredAlbums = albums.filter(album => {
     
     let matchListened = false;
@@ -19,7 +19,7 @@ function App() {
     } else if (filters.listened === "not-listened") {
       matchListened = !album.listened;
     }
-
+    
     let matchRating = false;
     
     if (filters.rating === "all") {
@@ -29,7 +29,7 @@ function App() {
     } else {
       matchRating = album.rating === Number(filters.rating);
     }
-
+    
     return matchListened && matchRating
   })
   
@@ -40,7 +40,7 @@ function App() {
       })
     })
   }
-
+  
   const rateAlbum = (id, newRating) => {
     setAlbums(prevAlbums => {
       return prevAlbums.map(album => {
@@ -48,7 +48,7 @@ function App() {
       })
     })
   }
-
+  
   const saveComment = (id, newComment) => {
     setAlbums(prevAlbums => {
       return prevAlbums.map(album => {
@@ -63,22 +63,14 @@ function App() {
     })
   }
   
-  const addAlbum = (event) => {
-    event.preventDefault();
-    const albumData = new FormData(event.currentTarget);
-    const newAlbum = {
-      "id": crypto.randomUUID(),
-      "title": albumData.get('name'),
-      "artist": albumData.get('artist'),
-      "genre": albumData.get('genre'),
-      "releaseYear": Number(albumData.get('releaseYear')),
-      "listened": false,
-      "rating": null,
-      "comment": "",
-      "artwork": "/images/placeholder.jpeg"
-    }
-    setAlbums(prevAlbums => [...prevAlbums, newAlbum])
-    }
+  const addAlbum = (newAlbum) => {
+    const albumWithId = {
+      ...newAlbum,
+      id: crypto.randomUUID()
+    };
+    
+    setAlbums(prevAlbums => [...prevAlbums, albumWithId])
+  }
   
   
   return (
