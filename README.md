@@ -48,7 +48,7 @@ The back end requires a server/.env file containing your PostgreSQL connection s
 - PostgreSQL (hosted on Supabase)
 - `pg` for database queries
 
-The back end follows the **Model-View-Controller (MVC)** architectural pattern and provides a REST API for communicating with the front end.
+The back end follows the Model-View-Controller (MVC) architectural pattern and provides a REST API for communicating with the front end.
 
 ## Features
 
