@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { albums as initialAlbums } from './data/albums.js'
 import { AlbumCard } from './components/AlbumCard'
@@ -6,7 +6,20 @@ import { AddAlbumForm } from './components/AddAlbumForm.jsx'
 import { CollectionFilters } from './components/CollectionFilters.jsx'
 
 function App() {
-  const [albums, setAlbums] = useState(initialAlbums)
+  const [albums, setAlbums] = useState([])
+  
+  async function fetchAlbums() {
+    const response = await fetch('http://localhost:3000/api/albums');
+    const data = await response.json();
+    setAlbums(data)
+  }
+  
+  useEffect(() => {
+    fetchAlbums()
+  }, [])
+  
+  
+  
   const [filters, setFilters] = useState({listened: 'all', rating: 'all'})
   
   const filteredAlbums = albums.filter(album => {
@@ -33,68 +46,105 @@ function App() {
     return matchListened && matchRating
   })
   
-  const toggleListened = (id) => {
-    setAlbums(prevAlbums => {
-      return prevAlbums.map(album => {
-        return album.id === id ? {...album, listened: !album.listened} : album 
+  const toggleListened = async (album_id) => {
+    
+    const album = albums.find(album => album.album_id === album_id)
+    
+    const response = await fetch(`http://localhost:3000/api/albums/${album_id}`, 
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ listened: !album.listened })
       })
-    })
-  }
-  
-  const rateAlbum = (id, newRating) => {
-    setAlbums(prevAlbums => {
-      return prevAlbums.map(album => {
-        return album.id === id ? {...album, rating: newRating} : album 
+      
+      if (response.ok) {
+        await fetchAlbums()
+      }
+    }
+    
+    const rateAlbum = async (album_id, newRating) => {
+      const response = await fetch(`http://localhost:3000/api/albums/${album_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ rating: newRating })
       })
-    })
-  }
-  
-  const saveComment = (id, newComment) => {
-    setAlbums(prevAlbums => {
-      return prevAlbums.map(album => {
-        return album.id === id ? {...album, comment: newComment} : album 
+      
+      if (response.ok) {
+        await fetchAlbums()
+      }
+    }
+    
+    const saveComment = async (album_id, newComment) => {
+      const response = await fetch(`http://localhost:3000/api/albums/${album_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ comment: newComment })
       })
-    })
-  }
-  
-  const removeAlbum = (id) => {
-    setAlbums(prevAlbums => {
-      return prevAlbums.filter(album => album.id !== id)
-    })
-  }
-  
-  const addAlbum = (newAlbum) => {
-    const albumWithId = {
-      ...newAlbum,
-      id: crypto.randomUUID()
+      
+      if (response.ok) {
+        await fetchAlbums()
+      }
     };
     
-    setAlbums(prevAlbums => [...prevAlbums, albumWithId])
-  }
-  
-  
-  return (
-    <>
-    <h1>Album Journal</h1>
-    <CollectionFilters filters={filters} setFilters={setFilters}/>
+    const removeAlbum = async (album_id) => {
+      const response = await fetch(`http://localhost:3000/api/albums/${album_id}`, { 
+        method: 'DELETE' 
+      })
+      
+      if (response.ok) {
+        await fetchAlbums();
+      }
+    }
     
-    <div className="album-grid">
-    { filteredAlbums.map((album) => (
-      <AlbumCard
-      album={album}
-      key={album.id}
-      toggleListened={() => toggleListened(album.id)}
-      removeAlbum={() => removeAlbum(album.id)}
-      rateAlbum={newRating => rateAlbum(album.id, newRating)}
-      saveComment={newComment => saveComment(album.id, newComment)}
-      />
-    ))}
-    </div>
+    const addAlbum = async (newAlbum) => {
+      const response = await fetch(`http://localhost:3000/api/albums/`, { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newAlbum)
+        
+      });
+      
+      if (response.ok) {
+        await fetchAlbums();
+      }
+    }
     
-    <AddAlbumForm addAlbum={addAlbum} />
-    </>)
     
-  }
-  
-  export default App
-  
+    return (
+      <>
+      <h1>Album Journal</h1>
+      <CollectionFilters filters={filters} setFilters={setFilters}/>
+      
+      <div className="album-grid">
+      
+      { filteredAlbums.map((album) => (
+        <AlbumCard
+        album={album}
+        key={album.album_id}
+        toggleListened={() => toggleListened(album.album_id)}
+        removeAlbum={() => removeAlbum(album.album_id)}
+        rateAlbum={newRating => rateAlbum(album.album_id, newRating)}
+        saveComment={newComment => saveComment(album.album_id, newComment)}
+        />
+      ))}
+      <div className="add-album-card">
+        <h2>Add New Album</h2>
+      <AddAlbumForm addAlbum={addAlbum} />
+      </div>
+      </div>
+      
+      
+      </>)
+      
+    }
+    
+    export default App
+    

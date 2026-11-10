@@ -7,11 +7,11 @@ export function AddAlbumForm ({ addAlbum }) {
               "title": albumData.get('title').trim(),
               "artist": albumData.get('artist').trim(),
               "genre": albumData.get('genre').trim(),
-              "releaseYear": Number(albumData.get('releaseYear')),
+              "release_year": Number(albumData.get('release_year')),
               "listened": false,
               "rating": null,
               "comment": "",
-              "artwork": "/images/placeholder.jpeg"
+              "artwork_url": albumData.get('artwork_url') || null
             }
         addAlbum(newAlbum)
         event.currentTarget.reset();
@@ -29,11 +29,15 @@ export function AddAlbumForm ({ addAlbum }) {
         </label>
         
         <label>Release Year:
-            <input name='releaseYear' type='number' required min='1900' max='2050'></input>
+            <input name='release_year' type='number' required min='1900' max='2050'></input>
         </label>
         
         <label>Genre:
             <input name='genre' type='text'></input>
+        </label>
+
+        <label>Artwork URL:
+            <input name='artwork_url' type='url'></input>
         </label>
         
         <button type='submit'>Submit</button>

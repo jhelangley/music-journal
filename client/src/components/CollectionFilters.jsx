@@ -2,7 +2,7 @@ export function CollectionFilters({ filters, setFilters }) {
 
     return (
         <>
-        <fieldset>
+        <fieldset className='filter-group'>
             <legend>Listening Status</legend>
             <label>All Albums
                 <input 
@@ -35,7 +35,7 @@ export function CollectionFilters({ filters, setFilters }) {
             </label>
         </fieldset>
         
-        <fieldset>
+        <fieldset className='filter-group'>
             <legend>Rating</legend>
         <label>Unrated
             <input 

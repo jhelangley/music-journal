@@ -5,10 +5,10 @@ export function AlbumCard({ album, toggleListened, rateAlbum, removeAlbum, saveC
     
     return (
         <div className="album-card">
-            <img src={album.artwork} alt={`${album.title} album cover`} className="album-artwork" />
+            <img src={album.artwork_url || '/images/placeholder.png'} alt={`${album.title} album cover`} className="album-artwork" />
             <h3>{album.title}</h3>
             <p>{album.artist}</p>
-            <p>{album.genre} - {album.releaseYear}</p>
+            <p>{album.genre} - {album.release_year}</p>
             <button onClick={toggleListened}>{album.listened ? "Listened" : "Not Listened"}</button>
             <RatingControl rateAlbum={rateAlbum} rating={album.rating}/>
             <CommentForm saveComment={saveComment} comment={album.comment}/>
